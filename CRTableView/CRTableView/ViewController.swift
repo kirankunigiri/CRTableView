@@ -64,6 +64,7 @@ extension ViewController: UITableViewDataSource {
 // MARK: - Comment Classes
 class Comment {
     let objectId = UUID().uuidString
+    var isShowingReplies: Bool = false
 }
 
 class Reply: Comment {
@@ -93,17 +94,34 @@ class CommentCell: UITableViewCell {
     var comment: Comment?
     
     @IBAction func viewButtonTapped(_ sender: UIButton) {
-        // Make data manager load all replies
-        DM.shared.loadReplies(comment: comment!)
-        // Get tableview and reload data
-        self.tableView!.reloadData()
+        comment!.isShowingReplies.toggle()
+
+        if !comment!.isShowingReplies {
+            // Remove replies
+            let indexes = DM.shared.hideReplies(comment: comment!)
+            self.tableView?.beginUpdates()
+            self.tableView?.deleteRows(at: indexes, with: .automatic)
+            self.tableView?.endUpdates()
+            
+            // Update title
+            viewButton.setTitle("View more replies...", for: .normal)
+        } else {
+            // Load replies
+            let indexes = DM.shared.loadReplies(comment: comment!)
+            self.tableView?.beginUpdates()
+            self.tableView?.insertRows(at: indexes, with: .automatic)
+            self.tableView?.endUpdates()
+            
+            // Update title
+            viewButton.setTitle("Hide replies", for: .normal)
+        }
     }
     
     func setup(comment: Comment) {
         // Assign comment
         self.comment = comment
         
-        // Update UI
+        // Update UI depending if it is a comment or reply
         if comment is Reply {
             // Inset the comment to the right
             contentView.layoutMargins = UIEdgeInsetsMake(0, 100, 0, 0)
@@ -142,7 +160,7 @@ class DM {
     var commentList: [Comment] = []
     
     /** Loads the replies of the corresponding comment into the list */
-    func loadReplies(comment: Comment) {
+    func loadReplies(comment: Comment) -> [IndexPath] {
         // Get index of the comment
         let index = commentList.index(of: comment)!
         
@@ -153,6 +171,29 @@ class DM {
         commentList.insert(r1, at: index + 1)
         commentList.insert(r2, at: index + 1)
         commentList.insert(r3, at: index + 1)
+        
+        // Get indexes and return them
+        let ip1 = IndexPath(row: index + 1, section: 0)
+        let ip2 = IndexPath(row: index + 2, section: 0)
+        let ip3 = IndexPath(row: index + 3, section: 0)
+        return [ip1, ip2, ip3]
+    }
+    
+    /** Deletes the replies of the corresponding comment into the list */
+    func hideReplies(comment: Comment) -> [IndexPath] {
+        // Get index of the comment
+        let index = commentList.index(of: comment)!
+        
+        // Remove all replies
+        commentList.remove(at: index + 1)
+        commentList.remove(at: index + 1)
+        commentList.remove(at: index + 1)
+        
+        // Get indexes and return them
+        let ip1 = IndexPath(row: index + 1, section: 0)
+        let ip2 = IndexPath(row: index + 2, section: 0)
+        let ip3 = IndexPath(row: index + 3, section: 0)
+        return [ip1, ip2, ip3]
     }
     
     // Initialize with random comments
@@ -180,6 +221,17 @@ extension UITableViewCell {
         }
         return view as? UITableView
     }
+}
+
+
+
+extension Bool {
+    
+    /** Toggle a boolean's state */
+    mutating func toggle() {
+        self = !self
+    }
+    
 }
 
 
