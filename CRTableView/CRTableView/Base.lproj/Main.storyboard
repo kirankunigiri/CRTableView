@@ -1,14 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="CRTableView" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -16,11 +21,78 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="146" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6Jv-nG-Hho">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="622"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="commentCell" rowHeight="146" id="cuh-jB-RDu" customClass="CommentCell" customModule="CRTableView" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="146"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cuh-jB-RDu" id="c6m-sQ-gFN">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="146"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is an extremely long title that is used for testing purposes to ensure that the offset applies to both sides." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWP-MG-Run">
+                                                    <rect key="frame" x="20" y="12" width="335" height="93.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dbn-m0-BTz">
+                                                    <rect key="frame" x="20" y="109.5" width="135" height="24"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="24" id="QzB-gS-fLq"/>
+                                                        <constraint firstAttribute="width" constant="135" id="nn3-6M-D4c"/>
+                                                    </constraints>
+                                                    <state key="normal" title="View more replies..."/>
+                                                    <connections>
+                                                        <action selector="viewButtonTapped:" destination="cuh-jB-RDu" eventType="touchUpInside" id="rpk-pn-d5M"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="hWP-MG-Run" firstAttribute="top" secondItem="c6m-sQ-gFN" secondAttribute="topMargin" constant="4" id="1z9-cf-OAp"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="hWP-MG-Run" secondAttribute="trailing" constant="12" id="GH6-DZ-7cL"/>
+                                                <constraint firstItem="dbn-m0-BTz" firstAttribute="leading" secondItem="c6m-sQ-gFN" secondAttribute="leadingMargin" constant="12" id="Pma-b4-N97"/>
+                                                <constraint firstItem="hWP-MG-Run" firstAttribute="leading" secondItem="c6m-sQ-gFN" secondAttribute="leadingMargin" constant="12" id="YZK-G6-KRf"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="dbn-m0-BTz" secondAttribute="bottom" constant="4" id="cLe-vP-JBc"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="hWP-MG-Run" secondAttribute="bottom" priority="999" constant="4" id="vqw-Gq-xNc"/>
+                                                <constraint firstItem="dbn-m0-BTz" firstAttribute="top" secondItem="hWP-MG-Run" secondAttribute="bottom" constant="4" id="wsx-kD-Rel"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="titleLabel" destination="hWP-MG-Run" id="rvl-rt-WJz"/>
+                                            <outlet property="viewButton" destination="dbn-m0-BTz" id="m1Z-z0-Wqk"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7my-wV-h5E">
+                                <rect key="frame" x="162" y="629" width="51" height="30"/>
+                                <state key="normal" title="Testing"/>
+                                <connections>
+                                    <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yu8-qg-mMz"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6Jv-nG-Hho" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="D0D-rh-GtJ"/>
+                            <constraint firstItem="6Jv-nG-Hho" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="T1d-IX-sCg"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="6Jv-nG-Hho" secondAttribute="bottom" constant="45" id="e0Y-fp-9r1"/>
+                            <constraint firstAttribute="trailing" secondItem="6Jv-nG-Hho" secondAttribute="trailing" id="gcu-ak-Yum"/>
+                            <constraint firstItem="7my-wV-h5E" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="h6O-Sk-46u"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="7my-wV-h5E" secondAttribute="bottom" constant="8" id="uK7-60-RGb"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="6Jv-nG-Hho" id="F2f-x7-ta3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="138.98050974512745"/>
         </scene>
     </scenes>
 </document>
