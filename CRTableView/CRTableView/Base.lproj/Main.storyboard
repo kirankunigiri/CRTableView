@@ -23,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="146" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6Jv-nG-Hho">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="622"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="commentCell" rowHeight="146" id="cuh-jB-RDu" customClass="CommentCell" customModule="CRTableView" customModuleProvider="target">
@@ -69,22 +69,13 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7my-wV-h5E">
-                                <rect key="frame" x="162" y="629" width="51" height="30"/>
-                                <state key="normal" title="Testing"/>
-                                <connections>
-                                    <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yu8-qg-mMz"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Jv-nG-Hho" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="D0D-rh-GtJ"/>
                             <constraint firstItem="6Jv-nG-Hho" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="T1d-IX-sCg"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="6Jv-nG-Hho" secondAttribute="bottom" constant="45" id="e0Y-fp-9r1"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="6Jv-nG-Hho" secondAttribute="bottom" id="e0Y-fp-9r1"/>
                             <constraint firstAttribute="trailing" secondItem="6Jv-nG-Hho" secondAttribute="trailing" id="gcu-ak-Yum"/>
-                            <constraint firstItem="7my-wV-h5E" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="h6O-Sk-46u"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="7my-wV-h5E" secondAttribute="bottom" constant="8" id="uK7-60-RGb"/>
                         </constraints>
                     </view>
                     <connections>

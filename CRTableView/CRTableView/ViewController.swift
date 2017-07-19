@@ -13,24 +13,22 @@ import UIKit
 // MARK: - Main View Controller
 class ViewController: UIViewController {
 
+    // The table view
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set data source
         self.tableView.dataSource = self
         
-        // Setup autoresizing
+        // Setup dynamic auto-resizing for comment cells
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 140
     }
 
     override var prefersStatusBarHidden: Bool {
         return true
-    }
-
-    @IBAction func buttonTapped(_ sender: UIButton) {
-        self.tableView.reloadData()
     }
     
 }
@@ -40,17 +38,22 @@ class ViewController: UIViewController {
 // MARK: - Table View Data Source
 extension ViewController: UITableViewDataSource {
     
+    // One section
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
+    // Get the count from the commentList in the Data Manager class
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DM.shared.commentList.count
     }
     
+    // Create and return a cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // Create a comment cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell", for: indexPath) as! CommentCell
         
+        // Get comment object, pass it in and setup
         let comment = DM.shared.commentList[indexPath.row]
         cell.setup(comment: comment)
         
@@ -63,7 +66,9 @@ extension ViewController: UITableViewDataSource {
 
 // MARK: - Comment Classes
 class Comment {
+    /** The object id */
     let objectId = UUID().uuidString
+    /** Whether or not it is currently showing replies */
     var isShowingReplies: Bool = false
 }
 
@@ -93,30 +98,28 @@ class CommentCell: UITableViewCell {
     @IBOutlet var viewButtonConstraint: NSLayoutConstraint!
     var comment: Comment?
     
+    // Toggle showing/hiding replies
     @IBAction func viewButtonTapped(_ sender: UIButton) {
         comment!.isShowingReplies.toggle()
 
-        if !comment!.isShowingReplies {
-            // Remove replies
-            let indexes = DM.shared.hideReplies(comment: comment!)
-            self.tableView?.beginUpdates()
-            self.tableView?.deleteRows(at: indexes, with: .automatic)
-            self.tableView?.endUpdates()
-            
-            // Update title
-            viewButton.setTitle("View more replies...", for: .normal)
-        } else {
+        if comment!.isShowingReplies {
             // Load replies
             let indexes = DM.shared.loadReplies(comment: comment!)
             self.tableView?.beginUpdates()
             self.tableView?.insertRows(at: indexes, with: .automatic)
             self.tableView?.endUpdates()
-            
-            // Update title
-            viewButton.setTitle("Hide replies", for: .normal)
+        } else {
+            // Remove replies
+            let indexes = DM.shared.hideReplies(comment: comment!)
+            self.tableView?.beginUpdates()
+            self.tableView?.deleteRows(at: indexes, with: .automatic)
+            self.tableView?.endUpdates()
         }
+        
+        updateButtonTitle()
     }
     
+    // Sets up the cell using the comment data
     func setup(comment: Comment) {
         // Assign comment
         self.comment = comment
@@ -124,7 +127,7 @@ class CommentCell: UITableViewCell {
         // Update UI depending if it is a comment or reply
         if comment is Reply {
             // Inset the comment to the right
-            contentView.layoutMargins = UIEdgeInsetsMake(0, 100, 0, 0)
+            contentView.layoutMargins = UIEdgeInsetsMake(0, 80, 0, 0)
             // Make the label extend to the edges by lowering the button constraint priority and hiding it
             viewButtonConstraint.priority = 997
             viewButton.isHidden = true
@@ -134,6 +137,10 @@ class CommentCell: UITableViewCell {
             // Make the label respect the button constraint by making its priority higher and unhiding it
             viewButtonConstraint.priority = 999
             viewButton.isHidden = false
+            // Update button title, but disable animations since it is on cell load (UIView.animatewithoutduration does not work with methods)
+            UIView.setAnimationsEnabled(false)
+            updateButtonTitle()
+            UIView.setAnimationsEnabled(true)
         }
         
         // Update title
@@ -143,8 +150,13 @@ class CommentCell: UITableViewCell {
         self.layoutIfNeeded()
     }
     
-    override func layoutIfNeeded() {
-        super.layoutIfNeeded()
+    // Updates button title depending on `isShowingReplies`
+    func updateButtonTitle() {
+        if comment!.isShowingReplies {
+            viewButton.setTitle("Hide replies", for: .normal)
+        } else {
+            viewButton.setTitle("View more replies...", for: .normal)
+        }
     }
 }
 
@@ -210,7 +222,9 @@ class DM {
 
 
 
-// MARK: - UITableView Extension
+// MARK: - Extensions
+
+// Table view cell
 extension UITableViewCell {
     
     /** Gets the owner tableView of the cell */
@@ -224,7 +238,7 @@ extension UITableViewCell {
 }
 
 
-
+// Boolean
 extension Bool {
     
     /** Toggle a boolean's state */
