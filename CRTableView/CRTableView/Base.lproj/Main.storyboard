@@ -57,13 +57,14 @@
                                                 <constraint firstItem="dbn-m0-BTz" firstAttribute="leading" secondItem="c6m-sQ-gFN" secondAttribute="leadingMargin" constant="12" id="Pma-b4-N97"/>
                                                 <constraint firstItem="hWP-MG-Run" firstAttribute="leading" secondItem="c6m-sQ-gFN" secondAttribute="leadingMargin" constant="12" id="YZK-G6-KRf"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="dbn-m0-BTz" secondAttribute="bottom" constant="4" id="cLe-vP-JBc"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="hWP-MG-Run" secondAttribute="bottom" priority="999" constant="4" id="vqw-Gq-xNc"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="hWP-MG-Run" secondAttribute="bottom" priority="998" constant="4" id="vqw-Gq-xNc"/>
                                                 <constraint firstItem="dbn-m0-BTz" firstAttribute="top" secondItem="hWP-MG-Run" secondAttribute="bottom" constant="4" id="wsx-kD-Rel"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="titleLabel" destination="hWP-MG-Run" id="rvl-rt-WJz"/>
                                             <outlet property="viewButton" destination="dbn-m0-BTz" id="m1Z-z0-Wqk"/>
+                                            <outlet property="viewButtonConstraint" destination="wsx-kD-Rel" id="PBp-v3-gbn"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
