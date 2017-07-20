@@ -170,6 +170,7 @@ class DM {
     
     /** List of all comments, including replies */
     var commentList: [Comment] = []
+    var numberOfReplies = 3
     
     /** Loads the replies of the corresponding comment into the list */
     func loadReplies(comment: Comment) -> [IndexPath] {
@@ -177,18 +178,13 @@ class DM {
         let index = commentList.index(of: comment)!
         
         // Generate replies and insert
-        let r1 = Reply()
-        let r2 = Reply()
-        let r3 = Reply()
-        commentList.insert(r1, at: index + 1)
-        commentList.insert(r2, at: index + 1)
-        commentList.insert(r3, at: index + 1)
-        
-        // Get indexes and return them
-        let ip1 = IndexPath(row: index + 1, section: 0)
-        let ip2 = IndexPath(row: index + 2, section: 0)
-        let ip3 = IndexPath(row: index + 3, section: 0)
-        return [ip1, ip2, ip3]
+        var ips: [IndexPath] = []
+        for i in 1 ... numberOfReplies {
+            let r = Reply()
+            commentList.insert(r, at: index + i)
+            ips.append(IndexPath(row: index + i, section: 0))
+        }
+        return ips
     }
     
     /** Deletes the replies of the corresponding comment into the list */
@@ -196,16 +192,12 @@ class DM {
         // Get index of the comment
         let index = commentList.index(of: comment)!
         
-        // Remove all replies
-        commentList.remove(at: index + 1)
-        commentList.remove(at: index + 1)
-        commentList.remove(at: index + 1)
-        
-        // Get indexes and return them
-        let ip1 = IndexPath(row: index + 1, section: 0)
-        let ip2 = IndexPath(row: index + 2, section: 0)
-        let ip3 = IndexPath(row: index + 3, section: 0)
-        return [ip1, ip2, ip3]
+        var ips: [IndexPath] = []
+        for i in 1 ... numberOfReplies {
+            commentList.remove(at: index + 1)
+            ips.append(IndexPath(row: index + i, section: 0))
+        }
+        return ips
     }
     
     // Initialize with random comments
