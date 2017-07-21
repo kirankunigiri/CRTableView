@@ -15,12 +15,15 @@ class ViewController: UIViewController {
 
     // The table view
     @IBOutlet var tableView: UITableView!
+    // Stores cell heights for scroll glitch fix
+    var heightAtIndexPath = NSMutableDictionary()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Set data source
         self.tableView.dataSource = self
+        self.tableView.delegate = self
         
         // Setup dynamic auto-resizing for comment cells
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -62,6 +65,26 @@ extension ViewController: UITableViewDataSource {
     
 }
 
+
+// MARK: - Table View Delegate
+// Fixes scrolling bugs within table view by storing cell heights instead of using an estimated number
+extension ViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        let height = self.heightAtIndexPath.object(forKey: indexPath)
+        if ((height) != nil) {
+            return CGFloat(height as! CGFloat)
+        } else {
+            return UITableViewAutomaticDimension
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let height = cell.frame.size.height
+        self.heightAtIndexPath.setObject(height, forKey: indexPath as NSCopying)
+    }
+    
+}
 
 
 // MARK: - Comment Classes
@@ -111,6 +134,8 @@ class CommentCell: UITableViewCell {
         } else {
             // Remove replies
             let indexes = DM.shared.hideReplies(comment: comment!)
+            
+            // Scroll to proper row
             self.tableView?.beginUpdates()
             self.tableView?.deleteRows(at: indexes, with: .automatic)
             self.tableView?.endUpdates()
@@ -170,7 +195,7 @@ class DM {
     
     /** List of all comments, including replies */
     var commentList: [Comment] = []
-    var numberOfReplies = 3
+    var numberOfReplies = 8
     
     /** Loads the replies of the corresponding comment into the list */
     func loadReplies(comment: Comment) -> [IndexPath] {
