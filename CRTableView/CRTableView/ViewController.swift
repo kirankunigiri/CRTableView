@@ -15,6 +15,7 @@ class ViewController: UIViewController {
 
     // The table view
     @IBOutlet var tableView: UITableView!
+    
     // Stores cell heights for scroll glitch fix
     var heightAtIndexPath = NSMutableDictionary()
     
@@ -93,6 +94,8 @@ class Comment {
     let objectId = UUID().uuidString
     /** Whether or not it is currently showing replies */
     var isShowingReplies: Bool = false
+    /** Whether or not the comment has any replies */
+    var hasReplies: Bool = true
 }
 
 class Reply: Comment {
@@ -134,8 +137,6 @@ class CommentCell: UITableViewCell {
         } else {
             // Remove replies
             let indexes = DM.shared.hideReplies(comment: comment!)
-            
-            // Scroll to proper row
             self.tableView?.beginUpdates()
             self.tableView?.deleteRows(at: indexes, with: .automatic)
             self.tableView?.endUpdates()
@@ -150,9 +151,11 @@ class CommentCell: UITableViewCell {
         self.comment = comment
         
         // Update UI depending if it is a comment or reply
-        if comment is Reply {
-            // Inset the comment to the right
-            contentView.layoutMargins = UIEdgeInsetsMake(0, 80, 0, 0)
+        if comment is Reply || !comment.hasReplies {
+            // Inset the comment to the right if it is a reply
+            if comment is Reply {
+                contentView.layoutMargins = UIEdgeInsetsMake(0, 80, 0, 0)
+            }
             // Make the label extend to the edges by lowering the button constraint priority and hiding it
             viewButtonConstraint.priority = 997
             viewButton.isHidden = true
@@ -230,6 +233,7 @@ class DM {
         let c1 = Comment()
         let c2 = Reply()
         let c3 = Comment()
+        c3.hasReplies = false
         let c4 = Comment()
         let c5 = Reply()
         commentList = [c1, c2, c3, c4, c5]
